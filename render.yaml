@@ -1,0 +1,18 @@
+# Render Blueprint: one free web service that serves the site and the game's live connections.
+# In Render: New > Blueprint > pick this repo. It asks for the two secrets below.
+services:
+  - type: web
+    name: real-or-ai
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run serve
+    healthCheckPath: /healthz
+    envVars:
+      # Your Gemini key from https://aistudio.google.com/apikey.
+      # (To use Mistral or Claude instead, add MISTRAL_API_KEY or ANTHROPIC_API_KEY in the dashboard.)
+      - key: GEMINI_API_KEY
+        sync: false
+      # Anyone who wants to host a game types this on the big screen. Phones don't need it.
+      - key: HOST_PASSWORD
+        sync: false
